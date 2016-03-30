@@ -1,0 +1,85 @@
+<%--
+    Mango - Open Source M2M - http://mango.serotoninsoftware.com
+    Copyright (C) 2006-2011 Serotonin Software Technologies Inc.
+    @author Matthew Lohbihler
+    
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see http://www.gnu.org/licenses/.
+--%>
+<%@page import="com.serotonin.mango.vo.Key" %>
+<%@ include file="/WEB-INF/jsp/include/tech.jsp" %>
+
+
+<table cellpadding="0" cellspacing="0">
+  <tr>
+    <td valign="top">
+      <div class="borderDiv marB marR" id="dataSourceProperties">
+        <table width="100%">
+          <tr>
+            <td class="smallTitle">
+              <tag:img png="icon_ds" title="common.edit"/>
+              ${dsDesc}
+              <tag:help id="${dsHelpId}"/>
+            </td>
+            <td align="right">
+              <tag:img png="icon_ds" onclick="toggleDataSource()" id="dsStatusImg" style="display:none"/>
+              <tag:img id="dsSaveImg" png="save" onclick="saveDataSource()" title="common.save"/>
+            </td>
+          </tr>
+        </table>
+        <div id="dataSourceMessage" class="ctxmsg formError"></div>
+        <table>
+          <tr>
+            <td class="formLabelRequired"><fmt:message key="dsEdit.head.name"/></td>
+            <td class="formField"><input type="text" id="dataSourceName" value="${dataSource.name}"/></td>
+          </tr>
+          <tr>
+            <td class="formLabelRequired"><fmt:message key="common.xid"/></td>
+            <td class="formField"><input type="text" id="dataSourceXid" value="${dataSource.xid}"/></td>
+          </tr>
+          <tr>
+           <td class="formLabelRequired"> <fmt:message key="dsEdit.head.typename"/> </td>
+            <td class="formField">
+            	<c:choose>    
+	  				<c:when test="${flag==1}"> 
+		  				<c:forEach items="${keytype}" var="item" varStatus="status">
+					        <label><input name="keytype_datasource" type="checkbox" value="<c:out value="${item.key_Code}" />"  /><c:out value="${item.key_Name}" /></label>
+					        <!-- <label><input name="keytype" type="checkbox" value="1" />1</label>  -->
+				     	</c:forEach>   
+	   				</c:when>
+	   				<c:when test="${flag==2}">
+	   				<%-- ${keytype}||||${dslistkey_lk} --%>
+	   				
+	   				<c:forEach items="${keytype}" var="item" varStatus="status">
+	   					<%--  <c:forEach items="${dslistkey_lk}" var="ds_key_lk" varStatus="key_lkstatus">
+		   					<c:choose >
+		   						<c:when test="${item.key_Code==ds_key_lk.key_Code }">
+		   							
+		   						</c:when>
+		   					</c:choose>		   										 					
+	   					</c:forEach>  --%>
+	   					<label><input <c:if test="${fn:contains(dslistkey_lk, item.key_Code) }">checked="checked"</c:if> name="keytype_datasource" type="checkbox" value="<c:out value="${item.key_Code}" />"  /><c:out value="${item.key_Name}" /></label>
+	   					
+	   					
+	   				</c:forEach>
+	   				</c:when>	  			 	
+				</c:choose>  
+           <%--  <c:if test="${flag==1}">
+			     <c:forEach items="${keytype}" var="item" varStatus="status">
+			        <label><input name="keytype_datasource" type="checkbox" value="<c:out value="${item.key_Code}" />"  /><c:out value="${item.key_Name}" /></label>
+			        <!-- <label><input name="keytype" type="checkbox" value="1" />1</label>  -->
+			     </c:forEach>   
+			     </c:if>
+			      		 --%>
+		    </td>
+          </tr>
